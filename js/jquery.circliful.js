@@ -50,7 +50,8 @@
             description: '',
             progressColor: null,
             rotateDegree: -90,
-            circleRadius: 57
+            circleRadius: 57,
+            strokeLinecap: 'butt'
         }, options);
 
         return this.each(function () {
@@ -399,7 +400,7 @@
                             $('<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 194 186" class="circliful">' +
                                 (typeof elements !== 'undefined' ? elements : '') +
                                 '<circle cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="' + settings.fillColor + '" stroke="' + settings.backgroundColor + '" stroke-width="' + backgroundBorderWidth + '" stroke-dasharray="' + circumference + '" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
-                                '<circle class="circle" cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="none" stroke="' + settings.foregroundColor + '" stroke-width="' + settings.foregroundBorderWidth + '" stroke-dasharray="0,20000" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
+                                '<circle class="circle" cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="none" stroke="' + settings.foregroundColor + '" stroke-width="' + settings.foregroundBorderWidth + '" stroke-dasharray="0,20000" transform="rotate(' + settings.rotateDegree + ',100,100)" stroke-linecap="' + settings.strokeLinecap + '" />' +
                                 '<circle cx="100" cy="100" r="' + settings.pointSize + '" fill="' + settings.pointColor + '" />' +
                                 icon +
                                 '<text class="timer" text-anchor="middle" x="' + percentageX + '" y="' + percentageY + '" style="font-size: ' + settings.percentageTextSize + 'px; ' + additionalCss + ';' + settings.textAdditionalCss + '" fill="' + settings.fontColor + '">' +
