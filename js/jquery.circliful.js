@@ -16,7 +16,7 @@
             fontColor: '#aaa',
             percent: 75,
             animation: 1,
-            animationStep: 5,
+            animationStep: 1,
             icon: 'none',
             iconSize: '30',
             iconColor: '#ccc',
