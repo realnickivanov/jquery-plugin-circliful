@@ -67,7 +67,7 @@
             var elements;
             var icon;
             var backgroundBorderWidth = settings.backgroundBorderWidth;
-            var progressColor = settings.progressColor
+            var progressColor = settings.progressColor;
 
             if (settings.halfCircle) {
                 if (settings.iconPosition === 'left') {
@@ -142,7 +142,7 @@
                         $('<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 194 186" class="circliful">' +
                             (typeof elements !== 'undefined' ? elements : '') +
                             '<clipPath id="cut-off-bottom"> <rect x="100" y="0" width="100" height="200" /> </clipPath>' +
-                            '<circle cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="' + settings.fillColor + '" stroke="' + settings.backgroundColor + '" stroke-width="' + backgroundBorderWidth + '" stroke-dasharray="360" clip-path="url(#cut-off-bottom)" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
+                            '<circle cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="' + settings.fillColor + '" stroke="' + settings.backgroundColor + '" stroke-width="' + backgroundBorderWidth + '" stroke-dasharray="' + circumference + '" clip-path="url(#cut-off-bottom)" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
                             '<circle class="circle" cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="none" stroke="' + settings.foregroundColor + '" stroke-width="' + settings.foregroundBorderWidth + '" stroke-dasharray="0,20000" ' + rotate + ' />' +
                             '<circle cx="100" cy="100" r="' + settings.pointSize + '" fill="' + settings.pointColor + '" clip-path="url(#cut-off-bottom)" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
                             icon +
@@ -156,15 +156,16 @@
             var myTimer = circleContainer.find('.timer');
             var interval = 30;
             var angle = 0;
-            var angleIncrement = settings.animationStep;
+            var circumference = 2 * Math.PI * settings.circleRadius;
+            var angleIncrement = circumference / 100 * settings.animationStep;
             var last = 0;
             var summary = 0;
             var oneStep = 0;
             var text = percent;
-            var calculateFill = (360 / 100 * percent);
+            var calculateFill = (circumference / 100 * percent);
 
             if (settings.halfCircle) {
-                calculateFill = (360 / 100 * percent) / 2;
+                calculateFill = (circumference / 100 * percent) / 2;
             }
 
             if (settings.replacePercentageByText !== null) {
@@ -220,7 +221,7 @@
                 if (settings.multiPercentage === 1) {
                     var index, percent;
                     var percentages = settings.percentages;
-                    var circleRadius = 360;
+                    var circleRadius = circumference;
                     for (index = 0; index < percentages.length; ++index) {
                         percent = percentages[index].percent;
                         currentCalculateFill = (circleRadius / 100 * percent);
@@ -234,22 +235,24 @@
                         animateCircle(currentCircle, currentCalculateFill, circleRadius, percent);
                     }
                 } else {
-                    animateCircle(currentCircle, currentCalculateFill, 360, percent);
+                    animateCircle(currentCircle, currentCalculateFill, circumference, settings.percent);
                 }
             }
 
             function animateCircle(currentCircle, currentCalculateFill, circleRadius, percent) {
                 var timer = window.setInterval(function () {
+                    angle += angleIncrement;
+                    summary += oneStep;
+
                     if ((angle) >= currentCalculateFill) {
                         window.clearInterval(timer);
                         last = 1;
                         if (typeof callback === 'function') {
                             callback.call(this);
                         }
-                    } else {
-                        angle += angleIncrement;
-                        summary += oneStep;
                     }
+
+
                     if (settings.halfCircle) {
                         if (angle * 2 / (circleRadius / 100) >= percent && last === 1) {
                             angle = ((circleRadius / 100) * percent) / 2
@@ -357,8 +360,8 @@
                 if (settings.multiPercentage === 1) {
                     var index, calculateFillMulti, percent, color, circles;
                     var percentages = settings.percentages;
-                    var radius = 47;
-                    var circleRadius = 360;
+                    var radius = settings.circleRadius;
+                    var circleRadius = circumference;
                     var rotate =  settings.rotateDegree;
                     for (index = 0; index < percentages.length; ++index) {
                         percent = percentages[index].percent;
@@ -395,7 +398,7 @@
                         .append(
                             $('<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 194 186" class="circliful">' +
                                 (typeof elements !== 'undefined' ? elements : '') +
-                                '<circle cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="' + settings.fillColor + '" stroke="' + settings.backgroundColor + '" stroke-width="' + backgroundBorderWidth + '" stroke-dasharray="360" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
+                                '<circle cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="' + settings.fillColor + '" stroke="' + settings.backgroundColor + '" stroke-width="' + backgroundBorderWidth + '" stroke-dasharray="' + circumference + '" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
                                 '<circle class="circle" cx="100" cy="100" r="' + settings.circleRadius + '" class="border" fill="none" stroke="' + settings.foregroundColor + '" stroke-width="' + settings.foregroundBorderWidth + '" stroke-dasharray="0,20000" transform="rotate(' + settings.rotateDegree + ',100,100)" />' +
                                 '<circle cx="100" cy="100" r="' + settings.pointSize + '" fill="' + settings.pointColor + '" />' +
                                 icon +
